@@ -2,8 +2,12 @@ import datetime
 import json
 from fastapi import APIRouter
 from database import get_db
-from models import SessionState, CompleteSessionRequest, WrongWordEntry, GenerateQuizRequest, GenerateQuizResponse
+from models import SessionState, AnswerRequest, AnswerResponse, CompleteSessionRequest, WrongWordEntry, GenerateQuizRequest, GenerateQuizResponse
 from services.claude_service import generate_quiz as _generate_quiz
+from services.session_service import (
+    update_session_score, get_session_score,
+    log_wrong_words, get_recent_wrong_words, mark_session_complete
+)
 from typing import List
 
 router = APIRouter(tags=["quiz"])
@@ -53,3 +57,36 @@ def get_session_today():
 def generate_quiz_endpoint(req: GenerateQuizRequest):
     questions = _generate_quiz(req.words, req.round, req.previous_questions)
     return GenerateQuizResponse(questions=questions)
+
+
+@router.post("/api/quiz/answer", response_model=AnswerResponse)
+def submit_answer(req: AnswerRequest):
+    today = str(datetime.date.today())
+    conn = get_db()
+    delta = 5 if req.is_correct else 0
+    if delta > 0:
+        update_session_score(conn, today, delta)
+    total = get_session_score(conn, today)
+    conn.close()
+    return AnswerResponse(
+        is_correct=req.is_correct,
+        score_delta=delta,
+        total_score=total,
+    )
+
+
+@router.post("/api/session/complete")
+def complete_session(req: CompleteSessionRequest):
+    conn = get_db()
+    log_wrong_words(conn, req.wrong_words, req.date)
+    mark_session_complete(conn, req.date)
+    conn.close()
+    return {"ok": True}
+
+
+@router.get("/api/wrongwords/recent", response_model=List[WrongWordEntry])
+def recent_wrong_words():
+    conn = get_db()
+    words = get_recent_wrong_words(conn)
+    conn.close()
+    return words
