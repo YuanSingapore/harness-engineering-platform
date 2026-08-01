@@ -11,7 +11,7 @@ def init_db(path: str = DB_PATH) -> sqlite3.Connection:
     cursor.executescript("""
         CREATE TABLE IF NOT EXISTS words (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            word TEXT NOT NULL,
+            word TEXT NOT NULL UNIQUE,
             part_of_speech TEXT,
             category TEXT,
             meaning TEXT,

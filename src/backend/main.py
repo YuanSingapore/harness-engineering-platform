@@ -1,6 +1,8 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import init_db
+from services.seed import seed_words
 
 app = FastAPI(title="English Buddy API")
 
@@ -13,7 +15,10 @@ app.add_middleware(
 
 @app.on_event("startup")
 def startup():
-    init_db()
+    conn = init_db()
+    word_bank = os.path.join(os.path.dirname(__file__), "../../word-bank/P4_Top200_MOE_Aligned_Vocabulary.txt")
+    seed_words(conn, word_bank)
+    conn.close()
 
 @app.get("/health")
 def health():
