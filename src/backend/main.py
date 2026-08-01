@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from database import init_db
 from services.seed import seed_words
 from routers import words as words_router
+from routers import quiz as quiz_router
 
 app = FastAPI(title="English Buddy API")
 
@@ -15,6 +16,7 @@ app.add_middleware(
 )
 
 app.include_router(words_router.router)
+app.include_router(quiz_router.router)
 
 @app.on_event("startup")
 def startup():
