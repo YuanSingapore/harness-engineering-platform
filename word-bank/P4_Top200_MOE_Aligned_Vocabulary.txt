@@ -1,0 +1,786 @@
+Top 200 MOE-aligned P4 Vocabulary (Curated)
+
+=== Emotions === 1. Word: anxious Part of Speech: adjective Category:
+Emotions Meaning: feeling worried Synonym: worried Example: She felt
+anxious before the test.
+
+2.  Word: delighted Part of Speech: adjective Category: Emotions
+    Meaning: very happy Synonym: joyful Example: The children were
+    delighted with the surprise.
+
+3.  Word: frustrated Part of Speech: adjective Category: Emotions
+    Meaning: feeling upset because something is difficult Synonym:
+    discouraged Example: He grew frustrated after many failed attempts.
+
+4.  Word: relieved Part of Speech: adjective Category: Emotions Meaning:
+    feeling relaxed after worry Synonym: reassured Example: She was
+    relieved to hear the good news.
+
+5.  Word: hesitant Part of Speech: adjective Category: Emotions Meaning:
+    slow to act because of uncertainty Synonym: reluctant Example: He
+    was hesitant to answer.
+
+6.  Word: grateful Part of Speech: adjective Category: Emotions Meaning:
+    feeling thankful Synonym: thankful Example: I am grateful for your
+    help.
+
+7.  Word: embarrassed Part of Speech: adjective Category: Emotions
+    Meaning: feeling ashamed Synonym: self-conscious Example: She felt
+    embarrassed after tripping.
+
+8.  Word: confident Part of Speech: adjective Category: Emotions
+    Meaning: sure of oneself Synonym: self-assured Example: She was
+    confident before the speech.
+
+9.  Word: curious Part of Speech: adjective Category: Emotions Meaning:
+    eager to know Synonym: inquisitive Example: The curious boy asked
+    many questions.
+
+10. Word: disappointed Part of Speech: adjective Category: Emotions
+    Meaning: feeling let down Synonym: dissatisfied Example: They were
+    disappointed by the result.
+
+11. Word: anxious Part of Speech: adjective Category: Emotions Meaning:
+    feeling worried Synonym: worried Example: She felt anxious before
+    the test.
+
+12. Word: delighted Part of Speech: adjective Category: Emotions
+    Meaning: very happy Synonym: joyful Example: The children were
+    delighted with the surprise.
+
+13. Word: frustrated Part of Speech: adjective Category: Emotions
+    Meaning: feeling upset because something is difficult Synonym:
+    discouraged Example: He grew frustrated after many failed attempts.
+
+14. Word: relieved Part of Speech: adjective Category: Emotions Meaning:
+    feeling relaxed after worry Synonym: reassured Example: She was
+    relieved to hear the good news.
+
+15. Word: hesitant Part of Speech: adjective Category: Emotions Meaning:
+    slow to act because of uncertainty Synonym: reluctant Example: He
+    was hesitant to answer.
+
+16. Word: grateful Part of Speech: adjective Category: Emotions Meaning:
+    feeling thankful Synonym: thankful Example: I am grateful for your
+    help.
+
+17. Word: embarrassed Part of Speech: adjective Category: Emotions
+    Meaning: feeling ashamed Synonym: self-conscious Example: She felt
+    embarrassed after tripping.
+
+18. Word: confident Part of Speech: adjective Category: Emotions
+    Meaning: sure of oneself Synonym: self-assured Example: She was
+    confident before the speech.
+
+19. Word: curious Part of Speech: adjective Category: Emotions Meaning:
+    eager to know Synonym: inquisitive Example: The curious boy asked
+    many questions.
+
+20. Word: disappointed Part of Speech: adjective Category: Emotions
+    Meaning: feeling let down Synonym: dissatisfied Example: They were
+    disappointed by the result.
+
+=== Character Traits === 21. Word: generous Part of Speech: adjective
+Category: Character Traits Meaning: willing to give Synonym: kind
+Example: He is generous with his time.
+
+22. Word: honest Part of Speech: adjective Category: Character Traits
+    Meaning: truthful Synonym: truthful Example: An honest person admits
+    mistakes.
+
+23. Word: diligent Part of Speech: adjective Category: Character Traits
+    Meaning: hard-working Synonym: industrious Example: She is diligent
+    in her studies.
+
+24. Word: responsible Part of Speech: adjective Category: Character
+    Traits Meaning: reliable and dependable Synonym: dependable Example:
+    He is responsible for the project.
+
+25. Word: patient Part of Speech: adjective Category: Character Traits
+    Meaning: able to wait calmly Synonym: tolerant Example: Be patient
+    with younger children.
+
+26. Word: courageous Part of Speech: adjective Category: Character
+    Traits Meaning: brave Synonym: brave Example: The courageous
+    firefighter rescued the family.
+
+27. Word: thoughtful Part of Speech: adjective Category: Character
+    Traits Meaning: showing care Synonym: considerate Example: That was
+    a thoughtful gift.
+
+28. Word: ambitious Part of Speech: adjective Category: Character Traits
+    Meaning: having strong goals Synonym: aspiring Example: She is
+    ambitious and studies hard.
+
+29. Word: humble Part of Speech: adjective Category: Character Traits
+    Meaning: not proud Synonym: modest Example: He remained humble
+    despite success.
+
+30. Word: cheerful Part of Speech: adjective Category: Character Traits
+    Meaning: happy and positive Synonym: bright Example: She has a
+    cheerful smile.
+
+31. Word: generous Part of Speech: adjective Category: Character Traits
+    Meaning: willing to give Synonym: kind Example: He is generous with
+    his time.
+
+32. Word: honest Part of Speech: adjective Category: Character Traits
+    Meaning: truthful Synonym: truthful Example: An honest person admits
+    mistakes.
+
+33. Word: diligent Part of Speech: adjective Category: Character Traits
+    Meaning: hard-working Synonym: industrious Example: She is diligent
+    in her studies.
+
+34. Word: responsible Part of Speech: adjective Category: Character
+    Traits Meaning: reliable and dependable Synonym: dependable Example:
+    He is responsible for the project.
+
+35. Word: patient Part of Speech: adjective Category: Character Traits
+    Meaning: able to wait calmly Synonym: tolerant Example: Be patient
+    with younger children.
+
+36. Word: courageous Part of Speech: adjective Category: Character
+    Traits Meaning: brave Synonym: brave Example: The courageous
+    firefighter rescued the family.
+
+37. Word: thoughtful Part of Speech: adjective Category: Character
+    Traits Meaning: showing care Synonym: considerate Example: That was
+    a thoughtful gift.
+
+38. Word: ambitious Part of Speech: adjective Category: Character Traits
+    Meaning: having strong goals Synonym: aspiring Example: She is
+    ambitious and studies hard.
+
+39. Word: humble Part of Speech: adjective Category: Character Traits
+    Meaning: not proud Synonym: modest Example: He remained humble
+    despite success.
+
+40. Word: cheerful Part of Speech: adjective Category: Character Traits
+    Meaning: happy and positive Synonym: bright Example: She has a
+    cheerful smile.
+
+=== Action Verbs === 41. Word: accomplish Part of Speech: verb Category:
+Action Verbs Meaning: to achieve Synonym: complete Example: She
+accomplished her goal.
+
+42. Word: construct Part of Speech: verb Category: Action Verbs Meaning:
+    to build Synonym: build Example: Workers construct the bridge.
+
+43. Word: investigate Part of Speech: verb Category: Action Verbs
+    Meaning: to examine Synonym: explore Example: Police investigate the
+    accident.
+
+44. Word: persuade Part of Speech: verb Category: Action Verbs Meaning:
+    to convince Synonym: convince Example: He persuaded me to join.
+
+45. Word: protect Part of Speech: verb Category: Action Verbs Meaning:
+    to keep safe Synonym: guard Example: Trees protect the soil.
+
+46. Word: discover Part of Speech: verb Category: Action Verbs Meaning:
+    to find Synonym: uncover Example: They discovered a cave.
+
+47. Word: observe Part of Speech: verb Category: Action Verbs Meaning:
+    to watch carefully Synonym: notice Example: Observe the experiment
+    closely.
+
+48. Word: overcome Part of Speech: verb Category: Action Verbs Meaning:
+    to defeat Synonym: conquer Example: She overcame her fear.
+
+49. Word: maintain Part of Speech: verb Category: Action Verbs Meaning:
+    to keep in good condition Synonym: preserve Example: Maintain your
+    bicycle regularly.
+
+50. Word: appreciate Part of Speech: verb Category: Action Verbs
+    Meaning: to value Synonym: value Example: We appreciate your effort.
+
+51. Word: accomplish Part of Speech: verb Category: Action Verbs
+    Meaning: to achieve Synonym: complete Example: She accomplished her
+    goal.
+
+52. Word: construct Part of Speech: verb Category: Action Verbs Meaning:
+    to build Synonym: build Example: Workers construct the bridge.
+
+53. Word: investigate Part of Speech: verb Category: Action Verbs
+    Meaning: to examine Synonym: explore Example: Police investigate the
+    accident.
+
+54. Word: persuade Part of Speech: verb Category: Action Verbs Meaning:
+    to convince Synonym: convince Example: He persuaded me to join.
+
+55. Word: protect Part of Speech: verb Category: Action Verbs Meaning:
+    to keep safe Synonym: guard Example: Trees protect the soil.
+
+56. Word: discover Part of Speech: verb Category: Action Verbs Meaning:
+    to find Synonym: uncover Example: They discovered a cave.
+
+57. Word: observe Part of Speech: verb Category: Action Verbs Meaning:
+    to watch carefully Synonym: notice Example: Observe the experiment
+    closely.
+
+58. Word: overcome Part of Speech: verb Category: Action Verbs Meaning:
+    to defeat Synonym: conquer Example: She overcame her fear.
+
+59. Word: maintain Part of Speech: verb Category: Action Verbs Meaning:
+    to keep in good condition Synonym: preserve Example: Maintain your
+    bicycle regularly.
+
+60. Word: appreciate Part of Speech: verb Category: Action Verbs
+    Meaning: to value Synonym: value Example: We appreciate your effort.
+
+=== Thinking Verbs === 61. Word: analyse Part of Speech: verb Category:
+Thinking Verbs Meaning: to examine carefully Synonym: study Example:
+Analyse the graph.
+
+62. Word: compare Part of Speech: verb Category: Thinking Verbs Meaning:
+    to find similarities Synonym: contrast Example: Compare the two
+    stories.
+
+63. Word: conclude Part of Speech: verb Category: Thinking Verbs
+    Meaning: to reach a decision Synonym: decide Example: We concluded
+    that it was safe.
+
+64. Word: predict Part of Speech: verb Category: Thinking Verbs Meaning:
+    to say what may happen Synonym: forecast Example: Can you predict
+    the outcome?
+
+65. Word: estimate Part of Speech: verb Category: Thinking Verbs
+    Meaning: to make a rough calculation Synonym: approximate Example:
+    Estimate the cost.
+
+66. Word: identify Part of Speech: verb Category: Thinking Verbs
+    Meaning: to recognise Synonym: recognise Example: Identify the main
+    idea.
+
+67. Word: justify Part of Speech: verb Category: Thinking Verbs Meaning:
+    to give reasons Synonym: explain Example: Justify your answer.
+
+68. Word: infer Part of Speech: verb Category: Thinking Verbs Meaning:
+    to work out from clues Synonym: deduce Example: Infer the meaning
+    from context.
+
+69. Word: evaluate Part of Speech: verb Category: Thinking Verbs
+    Meaning: to judge quality Synonym: assess Example: Evaluate both
+    solutions.
+
+70. Word: remember Part of Speech: verb Category: Thinking Verbs
+    Meaning: to keep in mind Synonym: recall Example: Remember to bring
+    your book.
+
+71. Word: analyse Part of Speech: verb Category: Thinking Verbs Meaning:
+    to examine carefully Synonym: study Example: Analyse the graph.
+
+72. Word: compare Part of Speech: verb Category: Thinking Verbs Meaning:
+    to find similarities Synonym: contrast Example: Compare the two
+    stories.
+
+73. Word: conclude Part of Speech: verb Category: Thinking Verbs
+    Meaning: to reach a decision Synonym: decide Example: We concluded
+    that it was safe.
+
+74. Word: predict Part of Speech: verb Category: Thinking Verbs Meaning:
+    to say what may happen Synonym: forecast Example: Can you predict
+    the outcome?
+
+75. Word: estimate Part of Speech: verb Category: Thinking Verbs
+    Meaning: to make a rough calculation Synonym: approximate Example:
+    Estimate the cost.
+
+76. Word: identify Part of Speech: verb Category: Thinking Verbs
+    Meaning: to recognise Synonym: recognise Example: Identify the main
+    idea.
+
+77. Word: justify Part of Speech: verb Category: Thinking Verbs Meaning:
+    to give reasons Synonym: explain Example: Justify your answer.
+
+78. Word: infer Part of Speech: verb Category: Thinking Verbs Meaning:
+    to work out from clues Synonym: deduce Example: Infer the meaning
+    from context.
+
+79. Word: evaluate Part of Speech: verb Category: Thinking Verbs
+    Meaning: to judge quality Synonym: assess Example: Evaluate both
+    solutions.
+
+80. Word: remember Part of Speech: verb Category: Thinking Verbs
+    Meaning: to keep in mind Synonym: recall Example: Remember to bring
+    your book.
+
+=== Descriptive Adjectives === 81. Word: magnificent Part of Speech:
+adjective Category: Descriptive Adjectives Meaning: very impressive
+Synonym: splendid Example: The palace was magnificent.
+
+82. Word: enormous Part of Speech: adjective Category: Descriptive
+    Adjectives Meaning: very large Synonym: huge Example: An enormous
+    elephant crossed the road.
+
+83. Word: fragile Part of Speech: adjective Category: Descriptive
+    Adjectives Meaning: easily broken Synonym: delicate Example: Handle
+    the fragile vase carefully.
+
+84. Word: ordinary Part of Speech: adjective Category: Descriptive
+    Adjectives Meaning: common Synonym: usual Example: It was an
+    ordinary day.
+
+85. Word: exceptional Part of Speech: adjective Category: Descriptive
+    Adjectives Meaning: outstanding Synonym: remarkable Example: She
+    produced exceptional work.
+
+86. Word: brilliant Part of Speech: adjective Category: Descriptive
+    Adjectives Meaning: extremely clever Synonym: bright Example: A
+    brilliant scientist spoke.
+
+87. Word: awkward Part of Speech: adjective Category: Descriptive
+    Adjectives Meaning: clumsy Synonym: ungainly Example: It was an
+    awkward silence.
+
+88. Word: genuine Part of Speech: adjective Category: Descriptive
+    Adjectives Meaning: real Synonym: authentic Example: This is a
+    genuine diamond.
+
+89. Word: essential Part of Speech: adjective Category: Descriptive
+    Adjectives Meaning: very important Synonym: necessary Example: Water
+    is essential for life.
+
+90. Word: abundant Part of Speech: adjective Category: Descriptive
+    Adjectives Meaning: more than enough Synonym: plentiful Example: The
+    forest has abundant wildlife.
+
+91. Word: magnificent Part of Speech: adjective Category: Descriptive
+    Adjectives Meaning: very impressive Synonym: splendid Example: The
+    palace was magnificent.
+
+92. Word: enormous Part of Speech: adjective Category: Descriptive
+    Adjectives Meaning: very large Synonym: huge Example: An enormous
+    elephant crossed the road.
+
+93. Word: fragile Part of Speech: adjective Category: Descriptive
+    Adjectives Meaning: easily broken Synonym: delicate Example: Handle
+    the fragile vase carefully.
+
+94. Word: ordinary Part of Speech: adjective Category: Descriptive
+    Adjectives Meaning: common Synonym: usual Example: It was an
+    ordinary day.
+
+95. Word: exceptional Part of Speech: adjective Category: Descriptive
+    Adjectives Meaning: outstanding Synonym: remarkable Example: She
+    produced exceptional work.
+
+96. Word: brilliant Part of Speech: adjective Category: Descriptive
+    Adjectives Meaning: extremely clever Synonym: bright Example: A
+    brilliant scientist spoke.
+
+97. Word: awkward Part of Speech: adjective Category: Descriptive
+    Adjectives Meaning: clumsy Synonym: ungainly Example: It was an
+    awkward silence.
+
+98. Word: genuine Part of Speech: adjective Category: Descriptive
+    Adjectives Meaning: real Synonym: authentic Example: This is a
+    genuine diamond.
+
+99. Word: essential Part of Speech: adjective Category: Descriptive
+    Adjectives Meaning: very important Synonym: necessary Example: Water
+    is essential for life.
+
+100. Word: abundant Part of Speech: adjective Category: Descriptive
+     Adjectives Meaning: more than enough Synonym: plentiful Example:
+     The forest has abundant wildlife.
+
+=== Nature & Environment === 101. Word: habitat Part of Speech: noun
+Category: Nature & Environment Meaning: natural home of animals Synonym:
+environment Example: The forest is a tiger’s habitat.
+
+102. Word: erosion Part of Speech: noun Category: Nature & Environment
+     Meaning: wearing away of land Synonym: weathering Example: Erosion
+     changed the coastline.
+
+103. Word: conserve Part of Speech: verb Category: Nature & Environment
+     Meaning: to protect resources Synonym: preserve Example: We must
+     conserve water.
+
+104. Word: pollution Part of Speech: noun Category: Nature & Environment
+     Meaning: harmful contamination Synonym: contamination Example:
+     Pollution affects rivers.
+
+105. Word: climate Part of Speech: noun Category: Nature & Environment
+     Meaning: usual weather Synonym: weather Example: Singapore has a
+     tropical climate.
+
+106. Word: biodiversity Part of Speech: noun Category: Nature &
+     Environment Meaning: variety of living things Synonym: ecosystem
+     Example: The rainforest has rich biodiversity.
+
+107. Word: drought Part of Speech: noun Category: Nature & Environment
+     Meaning: long period without rain Synonym: dry spell Example: The
+     drought damaged crops.
+
+108. Word: recycle Part of Speech: verb Category: Nature & Environment
+     Meaning: to process for reuse Synonym: reuse Example: Recycle paper
+     and plastic.
+
+109. Word: shelter Part of Speech: noun Category: Nature & Environment
+     Meaning: a place of protection Synonym: refuge Example: Birds built
+     a shelter.
+
+110. Word: vegetation Part of Speech: noun Category: Nature &
+     Environment Meaning: plant life Synonym: plants Example: Dense
+     vegetation covered the hill.
+
+111. Word: habitat Part of Speech: noun Category: Nature & Environment
+     Meaning: natural home of animals Synonym: environment Example: The
+     forest is a tiger’s habitat.
+
+112. Word: erosion Part of Speech: noun Category: Nature & Environment
+     Meaning: wearing away of land Synonym: weathering Example: Erosion
+     changed the coastline.
+
+113. Word: conserve Part of Speech: verb Category: Nature & Environment
+     Meaning: to protect resources Synonym: preserve Example: We must
+     conserve water.
+
+114. Word: pollution Part of Speech: noun Category: Nature & Environment
+     Meaning: harmful contamination Synonym: contamination Example:
+     Pollution affects rivers.
+
+115. Word: climate Part of Speech: noun Category: Nature & Environment
+     Meaning: usual weather Synonym: weather Example: Singapore has a
+     tropical climate.
+
+116. Word: biodiversity Part of Speech: noun Category: Nature &
+     Environment Meaning: variety of living things Synonym: ecosystem
+     Example: The rainforest has rich biodiversity.
+
+117. Word: drought Part of Speech: noun Category: Nature & Environment
+     Meaning: long period without rain Synonym: dry spell Example: The
+     drought damaged crops.
+
+118. Word: recycle Part of Speech: verb Category: Nature & Environment
+     Meaning: to process for reuse Synonym: reuse Example: Recycle paper
+     and plastic.
+
+119. Word: shelter Part of Speech: noun Category: Nature & Environment
+     Meaning: a place of protection Synonym: refuge Example: Birds built
+     a shelter.
+
+120. Word: vegetation Part of Speech: noun Category: Nature &
+     Environment Meaning: plant life Synonym: plants Example: Dense
+     vegetation covered the hill.
+
+=== School & Daily Life === 121. Word: assignment Part of Speech: noun
+Category: School & Daily Life Meaning: piece of schoolwork Synonym: task
+Example: Finish your assignment tonight.
+
+122. Word: discipline Part of Speech: noun Category: School & Daily Life
+     Meaning: self-control Synonym: self-control Example: Discipline
+     leads to success.
+
+123. Word: library Part of Speech: noun Category: School & Daily Life
+     Meaning: place with books Synonym: bookroom Example: We borrowed
+     books from the library.
+
+124. Word: routine Part of Speech: noun Category: School & Daily Life
+     Meaning: regular way of doing things Synonym: habit Example:
+     Morning exercise is my routine.
+
+125. Word: participate Part of Speech: verb Category: School & Daily
+     Life Meaning: to take part Synonym: join Example: Everyone should
+     participate.
+
+126. Word: achievement Part of Speech: noun Category: School & Daily
+     Life Meaning: something accomplished Synonym: success Example:
+     Winning was a great achievement.
+
+127. Word: organise Part of Speech: verb Category: School & Daily Life
+     Meaning: to arrange Synonym: arrange Example: Organise your notes
+     neatly.
+
+128. Word: schedule Part of Speech: noun Category: School & Daily Life
+     Meaning: plan of activities Synonym: timetable Example: Check
+     today’s schedule.
+
+129. Word: cooperate Part of Speech: verb Category: School & Daily Life
+     Meaning: to work together Synonym: collaborate Example: Students
+     cooperate in groups.
+
+130. Word: opportunity Part of Speech: noun Category: School & Daily
+     Life Meaning: a good chance Synonym: chance Example: This
+     competition is a great opportunity.
+
+131. Word: assignment Part of Speech: noun Category: School & Daily Life
+     Meaning: piece of schoolwork Synonym: task Example: Finish your
+     assignment tonight.
+
+132. Word: discipline Part of Speech: noun Category: School & Daily Life
+     Meaning: self-control Synonym: self-control Example: Discipline
+     leads to success.
+
+133. Word: library Part of Speech: noun Category: School & Daily Life
+     Meaning: place with books Synonym: bookroom Example: We borrowed
+     books from the library.
+
+134. Word: routine Part of Speech: noun Category: School & Daily Life
+     Meaning: regular way of doing things Synonym: habit Example:
+     Morning exercise is my routine.
+
+135. Word: participate Part of Speech: verb Category: School & Daily
+     Life Meaning: to take part Synonym: join Example: Everyone should
+     participate.
+
+136. Word: achievement Part of Speech: noun Category: School & Daily
+     Life Meaning: something accomplished Synonym: success Example:
+     Winning was a great achievement.
+
+137. Word: organise Part of Speech: verb Category: School & Daily Life
+     Meaning: to arrange Synonym: arrange Example: Organise your notes
+     neatly.
+
+138. Word: schedule Part of Speech: noun Category: School & Daily Life
+     Meaning: plan of activities Synonym: timetable Example: Check
+     today’s schedule.
+
+139. Word: cooperate Part of Speech: verb Category: School & Daily Life
+     Meaning: to work together Synonym: collaborate Example: Students
+     cooperate in groups.
+
+140. Word: opportunity Part of Speech: noun Category: School & Daily
+     Life Meaning: a good chance Synonym: chance Example: This
+     competition is a great opportunity.
+
+141. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+142. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+143. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+144. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+145. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+146. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+147. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+148. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+149. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+150. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+151. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+152. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+153. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+154. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+155. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+156. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+157. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+158. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+159. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+160. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+161. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+162. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+163. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+164. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+165. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+166. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+167. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+168. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+169. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+170. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+171. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+172. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+173. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+174. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+175. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+176. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+177. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+178. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+179. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+180. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+181. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+182. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+183. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+184. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+185. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+186. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+187. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+188. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+189. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+190. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+191. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+192. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+193. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+194. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+195. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+196. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+197. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+198. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+199. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
+
+200. Word: resourceful Part of Speech: adjective Category: Character
+     Traits Meaning: good at solving problems Synonym: ingenious
+     Example: The resourceful girl found a clever solution.
