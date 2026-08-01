@@ -2,7 +2,8 @@ import datetime
 import json
 from fastapi import APIRouter
 from database import get_db
-from models import SessionState, CompleteSessionRequest, WrongWordEntry
+from models import SessionState, CompleteSessionRequest, WrongWordEntry, GenerateQuizRequest, GenerateQuizResponse
+from services.claude_service import generate_quiz as _generate_quiz
 from typing import List
 
 router = APIRouter(tags=["quiz"])
@@ -46,3 +47,9 @@ def get_session_today():
         round2_words=r2,
         round3_words=r3,
     )
+
+
+@router.post("/api/quiz/generate", response_model=GenerateQuizResponse)
+def generate_quiz_endpoint(req: GenerateQuizRequest):
+    questions = _generate_quiz(req.words, req.round, req.previous_questions)
+    return GenerateQuizResponse(questions=questions)
