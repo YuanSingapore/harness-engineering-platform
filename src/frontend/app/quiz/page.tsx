@@ -23,7 +23,8 @@ export default function QuizPage() {
   const [dailyWords, setDailyWords] = useState<WordOut[]>([])
   const [questions, setQuestions] = useState<QuizQuestion[]>([])
   const [questionIndex, setQuestionIndex] = useState(0)
-  const [wrongWords, setWrongWords] = useState<{ r1: string[], r2: string[] }>({ r1: [], r2: [] })
+  const [wrongWords, setWrongWords] = useState<{ r1: string[], r2: string[], r3: string[] }>({ r1: [], r2: [], r3: [] })
+  const [r2WordNames, setR2WordNames] = useState<string[]>([])
   const [reviewIndex, setReviewIndex] = useState(0)
   const [previousQuestions, setPreviousQuestions] = useState<string[]>([])
   const [pendingExplain, setPendingExplain] = useState<QuizQuestion | null>(null)
@@ -31,17 +32,22 @@ export default function QuizPage() {
   const [recentWrong, setRecentWrong] = useState<WrongWordEntry[]>([])
   // Track which round triggered the explain phase so onContinue can return to the correct round
   const explainOriginPhase = useRef<Phase>('round1')
+  const previousQuestionsRef = useRef<string[]>([])
 
   const getWordObj = useCallback((word: string) =>
     dailyWords.find(w => w.word === word) ?? { id: 0, word, part_of_speech: '', category: '', meaning: '', synonym: '', example_sentence: '' },
     [dailyWords])
 
   const loadRound = useCallback(async (round: number, wordList: WordOut[]) => {
-    const qs = await generateQuiz({ words: wordList, round, previous_questions: previousQuestions })
+    const qs = await generateQuiz({ words: wordList, round, previous_questions: previousQuestionsRef.current })
     setQuestions(qs.questions)
     setQuestionIndex(0)
-    setPreviousQuestions(prev => [...prev, ...qs.questions.map(q => q.question)])
-  }, [previousQuestions])
+    setPreviousQuestions(prev => {
+      const updated = [...prev, ...qs.questions.map(q => q.question)]
+      previousQuestionsRef.current = updated
+      return updated
+    })
+  }, [])
 
   useEffect(() => {
     Promise.all([getDailyWords(), getRecentWrongWords()]).then(([daily, recent]) => {
@@ -49,20 +55,23 @@ export default function QuizPage() {
       setRecentWrong(recent)
       generateQuiz({ words: daily.words, round: 1, previous_questions: [] }).then(qs => {
         setQuestions(qs.questions)
-        setPreviousQuestions(qs.questions.map(q => q.question))
+        const initialQuestions = qs.questions.map(q => q.question)
+        previousQuestionsRef.current = initialQuestions
+        setPreviousQuestions(initialQuestions)
       })
     })
   }, [])
 
-  const endRound = useCallback(async (roundPhase: Phase, currentWrongWords: { r1: string[], r2: string[] }, currentQuestionIndex: number, currentQuestions: QuizQuestion[]) => {
+  const endRound = useCallback(async (roundPhase: Phase, currentWrongWords: { r1: string[], r2: string[], r3: string[] }, currentQuestionIndex: number, currentQuestions: QuizQuestion[]) => {
     if (roundPhase === 'round1') {
       const r1Wrong = currentWrongWords.r1
       const topupWords = recentWrong
         .filter(w => !r1Wrong.includes(w.word))
         .slice(0, r1Wrong.length < 5 ? 3 : 0)
         .map(w => w.word)
-      const r2WordNames = [...r1Wrong, ...topupWords]
-      const r2Words = r2WordNames.map(getWordObj)
+      const r2WordNamesList = [...r1Wrong, ...topupWords]
+      setR2WordNames(r2WordNamesList)
+      const r2Words = r2WordNamesList.map(getWordObj)
       setReviewWords(r1Wrong.map(getWordObj))
       setReviewIndex(0)
       setPhase('review1')
@@ -70,7 +79,7 @@ export default function QuizPage() {
     } else if (roundPhase === 'round2') {
       const r2Wrong = currentWrongWords.r2
       const topupWords = recentWrong
-        .filter(w => !r2Wrong.includes(w.word) && !currentWrongWords.r1.includes(w.word))
+        .filter(w => !r2Wrong.includes(w.word) && !r2WordNames.includes(w.word))
         .slice(0, r2Wrong.length < 5 ? 3 : 0)
         .map(w => w.word)
       const r3WordNames = [...r2Wrong, ...topupWords]
@@ -80,11 +89,11 @@ export default function QuizPage() {
       setPhase('review2_explain')
       await loadRound(3, r3Words)
     } else if (roundPhase === 'round3') {
-      const allWrong = [...new Set([...currentWrongWords.r1, ...currentWrongWords.r2])]
+      const allWrong = [...new Set([...currentWrongWords.r1, ...currentWrongWords.r2, ...currentWrongWords.r3])]
       await completeSession({ wrong_words: allWrong, date: new Date().toISOString().split('T')[0] })
       setPhase('summary')
     }
-  }, [recentWrong, getWordObj, loadRound])
+  }, [recentWrong, getWordObj, loadRound, r2WordNames])
 
   // Use refs to always have fresh state in callbacks
   const phaseRef = useRef(phase)
@@ -96,7 +105,7 @@ export default function QuizPage() {
   useEffect(() => { questionIndexRef.current = questionIndex }, [questionIndex])
   useEffect(() => { questionsRef.current = questions }, [questions])
 
-  const advanceQuestion = useCallback((currentPhase: Phase, currentIndex: number, currentQuestions: QuizQuestion[], currentWrongWords: { r1: string[], r2: string[] }) => {
+  const advanceQuestion = useCallback((currentPhase: Phase, currentIndex: number, currentQuestions: QuizQuestion[], currentWrongWords: { r1: string[], r2: string[], r3: string[] }) => {
     if (currentIndex + 1 < currentQuestions.length) {
       setQuestionIndex(currentIndex + 1)
     } else {
@@ -117,6 +126,8 @@ export default function QuizPage() {
         updatedWrongWords = { ...updatedWrongWords, r1: [...updatedWrongWords.r1, q.word] }
       } else if (currentPhase === 'round2') {
         updatedWrongWords = { ...updatedWrongWords, r2: [...updatedWrongWords.r2, q.word] }
+      } else if (currentPhase === 'round3') {
+        updatedWrongWords = { ...updatedWrongWords, r3: [...updatedWrongWords.r3, q.word] }
       }
       setWrongWords(updatedWrongWords)
       wrongWordsRef.current = updatedWrongWords
@@ -142,7 +153,7 @@ export default function QuizPage() {
   const progressStep = { round1: 0, explain: 0, review1: 1, round2: 2, review2_explain: 3, review2_write: 3, round3: 4, summary: 5 }[phase]
 
   if (phase === 'summary') {
-    const allWrong = [...new Set([...wrongWords.r1, ...wrongWords.r2])]
+    const allWrong = [...new Set([...wrongWords.r1, ...wrongWords.r2, ...wrongWords.r3])]
     return (
       <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white p-8">
         <SessionSummary score={score} wordsCorrect={dailyWords.length - allWrong.length} wordsToReview={allWrong} />
