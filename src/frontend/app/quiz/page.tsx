@@ -72,8 +72,8 @@ export default function QuizPage() {
   const bonusCorrectWordsRef = useRef<string[]>([])
 
   const getWordObj = useCallback((word: string) =>
-    dailyWords.find(w => w.word === word) ?? { id: 0, word, part_of_speech: '', category: '', meaning: '', synonym: '', example_sentence: '' },
-    [dailyWords])
+    [...dailyWords, ...bonusWords].find(w => w.word.toLowerCase() === word.toLowerCase()) ?? { id: 0, word, part_of_speech: '', category: '', meaning: '', synonym: '', example_sentence: '' },
+    [dailyWords, bonusWords])
 
   const loadRound = useCallback(async (round: number, wordList: WordOut[]) => {
     const qs = await generateQuiz({ words: wordList, round, previous_questions: previousQuestionsRef.current })
@@ -107,10 +107,12 @@ export default function QuizPage() {
           setPhase('bonus_summary')
           return
         }
-        const qs = await generateQuiz({ words: bonus.words, round: 1, previous_questions: [] })
+        const [qs, mcqQs] = await Promise.all([
+          generateQuiz({ words: bonus.words, round: 1, previous_questions: [] }),
+          generateMCQRound({ words: bonus.words, previous_questions: [] }),
+        ])
         setBonusQuestions(qs.questions)
         bonusQuestionsRef.current = qs.questions
-        const mcqQs = await generateMCQRound({ words: bonus.words, previous_questions: [] })
         setBonusMCQQuestions(mcqQs.questions)
         bonusMCQRef.current = mcqQs.questions
       })
@@ -346,8 +348,8 @@ export default function QuizPage() {
     } else {
       setBonusChosenAnswer(choice)
       setBonusPendingExplain(q)
-      setPhase('bonus_explain' as Phase)
-      phaseRef.current = 'bonus_explain' as Phase
+      setPhase('bonus_explain')
+      phaseRef.current = 'bonus_explain'
       return
     }
     if (currentIndex + 1 < currentQuestions.length) {
