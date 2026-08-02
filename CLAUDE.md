@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-{{PROJECT_PURPOSE}}
+An app to help Xiaowei practice his Singapore MOE P4 Term 3 English vocabulary through a 3-round adaptive quiz system.
 
 ## Startup Workflow
 
@@ -53,11 +53,13 @@ Before ending a session:
 
 ```bash
 # Full verification (recommended)
-{{PRIMARY_VERIFICATION_COMMAND}}
+./init.sh
 ```
 
 Required checks:
-{{VERIFICATION_COMMANDS}}
+- Backend: `cd src/backend && pytest -q`
+- Frontend type check: `cd src/frontend && npx tsc --noEmit`
+- Frontend tests: `cd src/frontend && npm test -- --passWithNoTests`
 
 ## Escalation
 

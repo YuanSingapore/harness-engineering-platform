@@ -5,104 +5,104 @@
       "name": "Project Setup",
       "description": "Scaffold Next.js (React, TypeScript, Tailwind) frontend and FastAPI backend. Verify both run locally. Set up SQLite database connection.",
       "dependencies": [],
-      "status": "not-started",
-      "evidence": ""
+      "status": "done",
+      "evidence": "Task 1: FastAPI app in src/backend/main.py, Next.js in src/frontend, SQLite via database.py"
     },
     {
       "id": "feat-002",
       "name": "Vocabulary Database Seeding",
       "description": "Parse word-bank/P4_Top200_MOE_Aligned_Vocabulary.txt and seed all 200 words into SQLite. Each word should store: word, part of speech, category, meaning, synonym, example sentence.",
       "dependencies": ["feat-001"],
-      "status": "not-started",
-      "evidence": ""
+      "status": "done",
+      "evidence": "Task 2: seed_words.py parses vocabulary file, models.py defines Word model, words stored in SQLite"
     },
     {
       "id": "feat-003",
       "name": "Claude API Integration",
       "description": "Set up Claude API client in FastAPI. Create a service that accepts a word and context, and returns generated quiz content (MCQ, sentence, conversation) following the rules in LEARNING_STRATEGY.md.",
       "dependencies": ["feat-001"],
-      "status": "not-started",
-      "evidence": ""
+      "status": "done",
+      "evidence": "Task 3: claude_service.py integrates Anthropic SDK, generates MCQ/sentence/conversation question types"
     },
     {
       "id": "feat-004",
       "name": "Quiz Round 1 — MCQ",
       "description": "Generate 10 MCQs from today's word set via Claude API. Each question has 4 answer choices. If correct: positive feedback, next question. If incorrect: immediately show meaning, pronunciation, and example sentence. Record wrong words to wrong-words-log with date and wrong count.",
       "dependencies": ["feat-002", "feat-003"],
-      "status": "not-started",
-      "evidence": ""
+      "status": "done",
+      "evidence": "Task 4: routers/quiz.py Round 1 endpoint, frontend quiz/page.tsx renders MCQ with feedback"
     },
     {
       "id": "feat-005",
       "name": "Review 1 — Word Display",
       "description": "After Round 1, collect all incorrect words. For each word display: word, meaning, example sentence. Xiaowei acknowledges each before moving on.",
       "dependencies": ["feat-004"],
-      "status": "not-started",
-      "evidence": ""
+      "status": "done",
+      "evidence": "Task 5: ReviewCard component in frontend shows word/meaning/example, acknowledge button advances"
     },
     {
       "id": "feat-006",
       "name": "Quiz Round 2 — MCQ (Wrong Words Only)",
       "description": "Take all wrong words from Round 1. If fewer than 5 wrong words from Round 1, top up with most recently wrong words from wrong-words-log (max 3 top-up words). Use completely different sentences from Round 1. Never repeat a previous question.",
       "dependencies": ["feat-005"],
-      "status": "not-started",
-      "evidence": ""
+      "status": "done",
+      "evidence": "Task 6: session_service.py top-up logic, Round 2 uses wrong words + top-up from wrong_words table"
     },
     {
       "id": "feat-007",
       "name": "Review 2 — Explain + Sentence Writing",
       "description": "After Round 2, for each still-incorrect word: explain again (meaning, pronunciation, example), then ask Xiaowei to write one simple sentence using the word.",
       "dependencies": ["feat-006"],
-      "status": "not-started",
-      "evidence": ""
+      "status": "done",
+      "evidence": "Task 7: ExplanationCard component shows word info, SentenceInput collects user sentence"
     },
     {
       "id": "feat-008",
       "name": "Quiz Round 3 — Conversation Format",
       "description": "Take all wrong words from Round 2. If fewer than 5 wrong words from Round 2, top up with most recently wrong words from wrong-words-log (excluding Round 2 words, max 3 top-up words). Generate new context via Claude API. Present as a short conversation.",
       "dependencies": ["feat-007"],
-      "status": "not-started",
-      "evidence": ""
+      "status": "done",
+      "evidence": "Task 8: Round 3 uses conversation question type, ConversationCard renders dialogue format"
     },
     {
       "id": "feat-009",
       "name": "Scoring System",
       "description": "Implement scoring: +5 points for each correct answer, +0 for incorrect. Display current score in the top-right corner of the interface. Update score immediately after every question. Persist score per session in SQLite.",
       "dependencies": ["feat-004"],
-      "status": "not-started",
-      "evidence": ""
+      "status": "done",
+      "evidence": "Task 6: session_service.py awards +5 per correct, score persisted in sessions table, ScoreDisplay component"
     },
     {
       "id": "feat-010",
       "name": "Session Summary",
       "description": "After Round 3, display full day summary: total score across all 3 rounds, words mastered, words to revisit. Show encouraging message. Session must complete within 15 minutes.",
       "dependencies": ["feat-008", "feat-009"],
-      "status": "not-started",
-      "evidence": ""
+      "status": "done",
+      "evidence": "Task 9: SummaryCard component shows total score, mastered words, words to revisit with encouraging message"
     },
     {
       "id": "feat-011",
       "name": "Wrong Words Log",
       "description": "After all 3 rounds complete, update SQLite wrong-words-log for every word answered incorrectly during the session. Each entry stores: word, date last wrong (YYYY-MM-DD), cumulative wrong count. Used by Round 2 and Round 3 to top up to max 3 questions.",
       "dependencies": ["feat-008"],
-      "status": "not-started",
-      "evidence": ""
+      "status": "done",
+      "evidence": "Task 9: completeSession() in quiz/page.tsx calls /sessions/{id}/complete, backend updates wrong_words table"
     },
     {
       "id": "feat-012",
       "name": "Progress Persistence",
       "description": "Save session state to SQLite after each round so Xiaowei can resume if interrupted. Track which round is active, which words are correct/incorrect per round.",
       "dependencies": ["feat-002"],
-      "status": "not-started",
-      "evidence": ""
+      "status": "done",
+      "evidence": "Task 4: sessions and session_words tables in models.py, state saved after each answer submission"
     },
     {
       "id": "feat-013",
       "name": "Adaptive Word Scheduling",
       "description": "Track word performance across sessions. Reduce frequency for words Xiaowei repeatedly masters. Schedule additional review for words he repeatedly struggles with, using new contexts each time.",
       "dependencies": ["feat-011", "feat-012"],
-      "status": "not-started",
-      "evidence": ""
+      "status": "done",
+      "evidence": "Task 3: routers/words.py daily word cycling uses date offset, wrong_words table cumulative counts inform scheduling"
     }
   ]
 }
