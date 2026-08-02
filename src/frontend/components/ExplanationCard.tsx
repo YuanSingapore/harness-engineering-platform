@@ -1,6 +1,6 @@
 import { QuizQuestion } from '@/lib/api'
-interface Props { question: QuizQuestion; onContinue: () => void }
-export default function ExplanationCard({ question, onContinue }: Props) {
+interface Props { question: QuizQuestion; onContinue: () => void; chosenAnswer?: string; chosenMeaning?: string }
+export default function ExplanationCard({ question, onContinue, chosenAnswer, chosenMeaning }: Props) {
   return (
     <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-6 max-w-xl mx-auto">
       <p className="text-blue-600 font-semibold mb-3">Good try! Let&#39;s learn this word 📖</p>
