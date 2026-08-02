@@ -55,15 +55,21 @@ def test_get_bonus_words_old_low_count_excluded(conn):
 
 def test_reduce_wrong_count(conn):
     conn.execute("INSERT INTO wrong_words_log (word, last_wrong_date, wrong_count) VALUES ('anxious', '2026-08-01', 3)")
+    conn.execute("INSERT INTO mcq_wrong_words_log (word, last_wrong_date, wrong_count) VALUES ('anxious', '2026-08-01', 3)")
     conn.commit()
     reduce_wrong_count(conn, "anxious")
     row = conn.execute("SELECT wrong_count FROM wrong_words_log WHERE word='anxious'").fetchone()
     assert row["wrong_count"] == 2
+    row2 = conn.execute("SELECT wrong_count FROM mcq_wrong_words_log WHERE word='anxious'").fetchone()
+    assert row2["wrong_count"] == 2
 
 
 def test_reduce_wrong_count_floor_zero(conn):
     conn.execute("INSERT INTO wrong_words_log (word, last_wrong_date, wrong_count) VALUES ('anxious', '2026-08-01', 0)")
+    conn.execute("INSERT INTO mcq_wrong_words_log (word, last_wrong_date, wrong_count) VALUES ('anxious', '2026-08-01', 0)")
     conn.commit()
     reduce_wrong_count(conn, "anxious")
     row = conn.execute("SELECT wrong_count FROM wrong_words_log WHERE word='anxious'").fetchone()
     assert row["wrong_count"] == 0
+    row2 = conn.execute("SELECT wrong_count FROM mcq_wrong_words_log WHERE word='anxious'").fetchone()
+    assert row2["wrong_count"] == 0
