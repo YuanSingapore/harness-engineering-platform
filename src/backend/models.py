@@ -60,3 +60,40 @@ class WrongWordEntry(BaseModel):
     word: str
     last_wrong_date: str
     wrong_count: int
+
+class MCQQuestion(BaseModel):
+    word: str
+    question: str
+    choices: List[str]
+    correct_answer: str
+    explanation: str
+
+class MCQSessionState(BaseModel):
+    date: str
+    current_round: int
+    total_score: int
+    completed: bool
+    round1_words: List[str]
+    round2_words: List[str]
+    round3_words: List[str]
+
+class MCQAnswerRequest(BaseModel):
+    word: str
+    is_correct: bool
+    round: int
+    date: str
+
+class MCQAnswerResponse(BaseModel):
+    score_delta: int
+    total_score: int
+
+class MCQCompleteRequest(BaseModel):
+    wrong_words: List[str]
+    date: str
+
+class MCQGenerateRequest(BaseModel):
+    words: List[WordOut]
+    previous_questions: List[str] = []
+
+class MCQGenerateResponse(BaseModel):
+    questions: List[MCQQuestion]
