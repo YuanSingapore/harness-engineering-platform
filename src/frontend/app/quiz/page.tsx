@@ -47,7 +47,6 @@ export default function QuizPage() {
   const [mcqScore, setMcqScore] = useState(0)
   const [mcqPendingExplain, setMcqPendingExplain] = useState<MCQQuestion | null>(null)
   const [mcqPreviousQuestions, setMcqPreviousQuestions] = useState<string[]>([])
-  const mcqPhaseRef = useRef<Phase>('mcq_round1')
   const mcqQuestionsRef = useRef<MCQQuestion[]>([])
   const mcqQuestionIndexRef = useRef(0)
   const mcqWrongWordsRef = useRef<{ r1: string[], r2: string[], r3: string[] }>({ r1: [], r2: [], r3: [] })
@@ -118,7 +117,7 @@ export default function QuizPage() {
         const initialQs = qs.questions.map(q => q.question)
         mcqPreviousQuestionsRef.current = initialQs
         setMcqPreviousQuestions(initialQs)
-      })
+      }).catch(err => console.error('MCQ preload failed:', err))
       setPhase('summary')
     }
   }, [recentWrong, getWordObj, loadRound, r2WordNames])
@@ -134,7 +133,6 @@ export default function QuizPage() {
   useEffect(() => { questionsRef.current = questions }, [questions])
 
   // MCQ ref sync effects
-  useEffect(() => { mcqPhaseRef.current = phase }, [phase])
   useEffect(() => { mcqQuestionsRef.current = mcqQuestions }, [mcqQuestions])
   useEffect(() => { mcqQuestionIndexRef.current = mcqQuestionIndex }, [mcqQuestionIndex])
   useEffect(() => { mcqWrongWordsRef.current = mcqWrongWords }, [mcqWrongWords])
@@ -207,7 +205,7 @@ export default function QuizPage() {
         // Perfect round — skip R2 and R3
         await completeMCQSession({ wrong_words: [], date: today })
         setPhase('mcq_summary')
-        mcqPhaseRef.current = 'mcq_summary'
+        phaseRef.current = 'mcq_summary'
         return
       }
       const r2Words = r1Wrong.map(getWordObj)
@@ -215,7 +213,7 @@ export default function QuizPage() {
       setMcqReviewIndex(0)
       await loadMCQRound(r2Words)
       setPhase('mcq_review1')
-      mcqPhaseRef.current = 'mcq_review1'
+      phaseRef.current = 'mcq_review1'
     } else if (roundPhase === 'mcq_round2') {
       const r2Wrong = currentWrong.r2
       if (r2Wrong.length === 0) {
@@ -223,7 +221,7 @@ export default function QuizPage() {
         const allWrong = [...new Set([...currentWrong.r1])]
         await completeMCQSession({ wrong_words: allWrong, date: today })
         setPhase('mcq_summary')
-        mcqPhaseRef.current = 'mcq_summary'
+        phaseRef.current = 'mcq_summary'
         return
       }
       const r3Words = r2Wrong.map(getWordObj)
@@ -231,12 +229,12 @@ export default function QuizPage() {
       setMcqReviewIndex(0)
       await loadMCQRound(r3Words)
       setPhase('mcq_review2')
-      mcqPhaseRef.current = 'mcq_review2'
+      phaseRef.current = 'mcq_review2'
     } else if (roundPhase === 'mcq_round3') {
       const allWrong = [...new Set([...currentWrong.r1, ...currentWrong.r2, ...currentWrong.r3])]
       await completeMCQSession({ wrong_words: allWrong, date: today })
       setPhase('mcq_summary')
-      mcqPhaseRef.current = 'mcq_summary'
+      phaseRef.current = 'mcq_summary'
     }
   }, [getWordObj, loadMCQRound])
 
@@ -250,10 +248,11 @@ export default function QuizPage() {
   }, [mcqEndRound])
 
   const handleMCQAnswer = async (choice: string, isCorrect: boolean) => {
-    const currentPhase = mcqPhaseRef.current
+    const currentPhase = phaseRef.current
     const currentIndex = mcqQuestionIndexRef.current
     const currentQuestions = mcqQuestionsRef.current
     const q = currentQuestions[currentIndex]
+    if (!q) return
     const today = new Date().toISOString().split('T')[0]
     const roundNum = currentPhase === 'mcq_round1' ? 1 : currentPhase === 'mcq_round2' ? 2 : 3
     const res = await submitMCQAnswer({ word: q.word, is_correct: isCorrect, round: roundNum, date: today })
@@ -268,7 +267,7 @@ export default function QuizPage() {
       mcqExplainOriginPhase.current = currentPhase
       setMcqPendingExplain(q)
       setPhase('mcq_explain')
-      mcqPhaseRef.current = 'mcq_explain'
+      phaseRef.current = 'mcq_explain'
     } else {
       mcqAdvanceQuestion(currentPhase, currentIndex, currentQuestions, mcqWrongWordsRef.current)
     }
@@ -281,7 +280,7 @@ export default function QuizPage() {
     const currentWrong = mcqWrongWordsRef.current
     setMcqPendingExplain(null)
     setPhase(originPhase)
-    mcqPhaseRef.current = originPhase
+    phaseRef.current = originPhase
     mcqAdvanceQuestion(originPhase, currentIndex, currentQuestions, currentWrong)
   }, [mcqAdvanceQuestion])
 
@@ -298,7 +297,7 @@ export default function QuizPage() {
         <button
           onClick={() => {
             setPhase('mcq_round1')
-            mcqPhaseRef.current = 'mcq_round1'
+            phaseRef.current = 'mcq_round1'
           }}
           className="mt-6 w-full max-w-xl mx-auto block bg-purple-500 hover:bg-purple-600 text-white font-semibold py-3 rounded-xl transition-colors text-center"
         >
@@ -324,7 +323,7 @@ export default function QuizPage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white p-8">
-      <ScoreDisplay score={score} />
+      <ScoreDisplay score={phase.startsWith('mcq_') ? mcqScore : score} />
       <ProgressBar step={progressStep} />
       <div className="mt-8">
         {(phase === 'round1' || phase === 'round2') && questions[questionIndex] && (
@@ -369,10 +368,10 @@ export default function QuizPage() {
               } else {
                 if (mcqR2WordNames.length > 0) {
                   setPhase('mcq_round2')
-                  mcqPhaseRef.current = 'mcq_round2'
+                  phaseRef.current = 'mcq_round2'
                 } else {
                   setPhase('mcq_round3')
-                  mcqPhaseRef.current = 'mcq_round3'
+                  phaseRef.current = 'mcq_round3'
                 }
               }
             }}
@@ -388,11 +387,11 @@ export default function QuizPage() {
                 const r3Words = mcqWrongWordsRef.current.r2
                 if (r3Words.length > 0) {
                   setPhase('mcq_round3')
-                  mcqPhaseRef.current = 'mcq_round3'
+                  phaseRef.current = 'mcq_round3'
                 } else {
-                  completeMCQSession({ wrong_words: [], date: new Date().toISOString().split('T')[0] })
+                  completeMCQSession({ wrong_words: [...new Set([...mcqWrongWordsRef.current.r1, ...mcqWrongWordsRef.current.r2])], date: new Date().toISOString().split('T')[0] })
                   setPhase('mcq_summary')
-                  mcqPhaseRef.current = 'mcq_summary'
+                  phaseRef.current = 'mcq_summary'
                 }
               }
             }}

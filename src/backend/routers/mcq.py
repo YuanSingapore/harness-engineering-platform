@@ -77,6 +77,18 @@ def submit_mcq_answer(req: MCQAnswerRequest):
     cursor.execute("SELECT total_score FROM mcq_sessions WHERE date = ?", (today,))
     row = cursor.fetchone()
     total = row["total_score"] if row else 0
+    # Track round progress in session state
+    cursor.execute(f"SELECT round{req.round}_words FROM mcq_sessions WHERE date = ?", (today,))
+    round_row = cursor.fetchone()
+    if round_row:
+        words = json.loads(round_row[0])
+        if req.word not in words:
+            words.append(req.word)
+            cursor.execute(
+                f"UPDATE mcq_sessions SET round{req.round}_words = ? WHERE date = ?",
+                (json.dumps(words), today)
+            )
+            conn.commit()
     conn.close()
     return MCQAnswerResponse(score_delta=delta, total_score=total)
 
