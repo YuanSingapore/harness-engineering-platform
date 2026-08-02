@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import ScoreDisplay from '@/components/ScoreDisplay'
 import ProgressBar from '@/components/ProgressBar'
 import QuestionCard from '@/components/QuestionCard'
@@ -21,10 +21,8 @@ type Phase = 'round1' | 'explain' | 'review1' | 'round2' | 'review2_explain' | '
 
 export default function QuizPage() {
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const startSection = searchParams.get('section')
   const [score, setScore] = useState(0)
-  const [phase, setPhase] = useState<Phase>(startSection === '2' ? 'mcq_round1' : 'round1')
+  const [phase, setPhase] = useState<Phase>('round1')
   const [dailyWords, setDailyWords] = useState<WordOut[]>([])
   const [questions, setQuestions] = useState<QuizQuestion[]>([])
   const [questionIndex, setQuestionIndex] = useState(0)
@@ -71,7 +69,9 @@ export default function QuizPage() {
   }, [])
 
   useEffect(() => {
-    if (startSection === '2') {
+    const section = new URLSearchParams(window.location.search).get('section')
+    if (section === '2') {
+      setPhase('mcq_round1')
       Promise.all([getDailyWords(), getMCQQuestionsToday()]).then(([daily, mcq]) => {
         setDailyWords(daily.words)
         setMcqQuestions(mcq.questions)
