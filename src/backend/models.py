@@ -97,3 +97,29 @@ class MCQGenerateRequest(BaseModel):
 
 class MCQGenerateResponse(BaseModel):
     questions: List[MCQQuestion]
+
+class BonusWordEntry(BaseModel):
+    word: str
+    wrong_count: int
+    source: str  # "s1", "s2", or "both"
+
+class BonusWordsResponse(BaseModel):
+    words: List[WordOut]
+
+class BonusSessionState(BaseModel):
+    date: str
+    total_score: int
+    completed: bool
+
+class BonusAnswerRequest(BaseModel):
+    word: str
+    is_correct: bool
+    date: str
+
+class BonusAnswerResponse(BaseModel):
+    score_delta: int
+    total_score: int
+
+class BonusCompleteRequest(BaseModel):
+    correct_words: List[str]
+    date: str

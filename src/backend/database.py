@@ -48,6 +48,12 @@ def init_db(path: str = DB_PATH) -> sqlite3.Connection:
             last_wrong_date TEXT NOT NULL,
             wrong_count INTEGER DEFAULT 1
         );
+        CREATE TABLE IF NOT EXISTS bonus_sessions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            date TEXT NOT NULL UNIQUE,
+            total_score INTEGER DEFAULT 0,
+            completed INTEGER DEFAULT 0
+        );
     """)
     conn.commit()
     return conn
