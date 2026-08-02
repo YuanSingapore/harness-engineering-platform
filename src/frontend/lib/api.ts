@@ -44,3 +44,25 @@ export const getRecentWrongWords = () => get<WrongWordEntry[]>('/api/wrongwords/
 export const generateQuiz = (req: GenerateQuizRequest) => post<GenerateQuizResponse>('/api/quiz/generate', req)
 export const submitAnswer = (req: AnswerRequest) => post<AnswerResponse>('/api/quiz/answer', req)
 export const completeSession = (req: CompleteSessionRequest) => post<{ ok: boolean }>('/api/session/complete', req)
+
+export interface MCQQuestion {
+  word: string; question: string; choices: string[]
+  correct_answer: string; explanation: string
+}
+export interface MCQSessionState {
+  date: string; current_round: number; total_score: number; completed: boolean
+  round1_words: string[]; round2_words: string[]; round3_words: string[]
+}
+export interface MCQAnswerRequest {
+  word: string; is_correct: boolean; round: number; date: string
+}
+export interface MCQAnswerResponse { score_delta: number; total_score: number }
+export interface MCQCompleteRequest { wrong_words: string[]; date: string }
+export interface MCQGenerateRequest { words: WordOut[]; previous_questions: string[] }
+export interface MCQGenerateResponse { questions: MCQQuestion[] }
+
+export const getMCQSessionToday = () => get<MCQSessionState>('/api/mcq/session/today')
+export const getMCQQuestionsToday = () => get<MCQGenerateResponse>('/api/mcq/questions/today')
+export const generateMCQRound = (req: MCQGenerateRequest) => post<MCQGenerateResponse>('/api/mcq/generate', req)
+export const submitMCQAnswer = (req: MCQAnswerRequest) => post<MCQAnswerResponse>('/api/mcq/answer', req)
+export const completeMCQSession = (req: MCQCompleteRequest) => post<{ ok: boolean }>('/api/mcq/session/complete', req)
