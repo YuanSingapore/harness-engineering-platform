@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import ScoreDisplay from '@/components/ScoreDisplay'
 import ProgressBar from '@/components/ProgressBar'
 import QuestionCard from '@/components/QuestionCard'
@@ -21,8 +21,10 @@ type Phase = 'round1' | 'explain' | 'review1' | 'round2' | 'review2_explain' | '
 
 export default function QuizPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const startSection = searchParams.get('section')
   const [score, setScore] = useState(0)
-  const [phase, setPhase] = useState<Phase>('round1')
+  const [phase, setPhase] = useState<Phase>(startSection === '2' ? 'mcq_round1' : 'round1')
   const [dailyWords, setDailyWords] = useState<WordOut[]>([])
   const [questions, setQuestions] = useState<QuizQuestion[]>([])
   const [questionIndex, setQuestionIndex] = useState(0)
@@ -69,16 +71,27 @@ export default function QuizPage() {
   }, [])
 
   useEffect(() => {
-    Promise.all([getDailyWords(), getRecentWrongWords()]).then(([daily, recent]) => {
-      setDailyWords(daily.words)
-      setRecentWrong(recent)
-      generateQuiz({ words: daily.words, round: 1, previous_questions: [] }).then(qs => {
-        setQuestions(qs.questions)
-        const initialQuestions = qs.questions.map(q => q.question)
-        previousQuestionsRef.current = initialQuestions
-        setPreviousQuestions(initialQuestions)
+    if (startSection === '2') {
+      Promise.all([getDailyWords(), getMCQQuestionsToday()]).then(([daily, mcq]) => {
+        setDailyWords(daily.words)
+        setMcqQuestions(mcq.questions)
+        mcqQuestionsRef.current = mcq.questions
+        const initialQs = mcq.questions.map(q => q.question)
+        mcqPreviousQuestionsRef.current = initialQs
+        setMcqPreviousQuestions(initialQs)
       })
-    })
+    } else {
+      Promise.all([getDailyWords(), getRecentWrongWords()]).then(([daily, recent]) => {
+        setDailyWords(daily.words)
+        setRecentWrong(recent)
+        generateQuiz({ words: daily.words, round: 1, previous_questions: [] }).then(qs => {
+          setQuestions(qs.questions)
+          const initialQuestions = qs.questions.map(q => q.question)
+          previousQuestionsRef.current = initialQuestions
+          setPreviousQuestions(initialQuestions)
+        })
+      })
+    }
   }, [])
 
   const endRound = useCallback(async (roundPhase: Phase, currentWrongWords: { r1: string[], r2: string[], r3: string[] }, currentQuestionIndex: number, currentQuestions: QuizQuestion[]) => {
