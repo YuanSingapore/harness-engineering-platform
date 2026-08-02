@@ -49,3 +49,15 @@
 ## Notes for Next Session
 
 [Free-form notes that will help the next session pick up context]
+
+## 2026-08-02 — Section 2 MCQ Workbook
+
+Implemented full Section 2 MCQ workbook feature:
+- python-docx added to requirements; mcq_sessions + mcq_wrong_words_log DB tables added
+- mcq_service.py: docx parser, chapter mapping (Ch01=Day1..Ch05=Day5, wraps), Claude R2/R3 generator, topup docx writer
+- routers/mcq.py: 5 endpoints (/session/today, /questions/today, /generate, /answer, /session/complete)
+- MCQSummary component (purple theme)
+- quiz/page.tsx: 7 new phases (mcq_round1/2/3, mcq_explain, mcq_review1/2, mcq_summary)
+- Section 1 summary now shows "Continue to Section 2 →" instead of Back to Home
+
+Status: done

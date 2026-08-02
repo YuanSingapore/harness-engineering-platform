@@ -103,6 +103,14 @@
       "dependencies": ["feat-011", "feat-012"],
       "status": "done",
       "evidence": "Task 3: routers/words.py daily word cycling uses date offset, wrong_words table cumulative counts inform scheduling"
+    },
+    {
+      "id": "feat-014",
+      "name": "Section 2 MCQ Workbook",
+      "description": "3-round MCQ workbook quiz from chapter docx files. R1 pre-written questions, R2/R3 Claude-generated meaning-to-word MCQs. Flows after Section 1 summary. Wrong words logged to topup docx.",
+      "dependencies": ["feat-004", "feat-010"],
+      "status": "done",
+      "evidence": "mcq_service.py parses docx, routers/mcq.py serves endpoints, quiz/page.tsx phases mcq_round1–mcq_summary"
     }
   ]
 }
