@@ -66,3 +66,16 @@ export const getMCQQuestionsToday = () => get<MCQGenerateResponse>('/api/mcq/que
 export const generateMCQRound = (req: MCQGenerateRequest) => post<MCQGenerateResponse>('/api/mcq/generate', req)
 export const submitMCQAnswer = (req: MCQAnswerRequest) => post<MCQAnswerResponse>('/api/mcq/answer', req)
 export const completeMCQSession = (req: MCQCompleteRequest) => post<{ ok: boolean }>('/api/mcq/session/complete', req)
+
+export interface BonusSessionState {
+  date: string; total_score: number; completed: boolean
+}
+export interface BonusWordsResponse { words: WordOut[] }
+export interface BonusAnswerRequest { word: string; is_correct: boolean; date: string }
+export interface BonusAnswerResponse { score_delta: number; total_score: number }
+export interface BonusCompleteRequest { correct_words: string[]; date: string }
+
+export const getBonusSession = () => get<BonusSessionState>('/api/bonus/session/today')
+export const getBonusWords = () => get<BonusWordsResponse>('/api/bonus/words')
+export const submitBonusAnswer = (req: BonusAnswerRequest) => post<BonusAnswerResponse>('/api/bonus/answer', req)
+export const completeBonusSession = (req: BonusCompleteRequest) => post<{ ok: boolean }>('/api/bonus/session/complete', req)
