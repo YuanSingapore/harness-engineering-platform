@@ -9,12 +9,15 @@ import ReviewCard from '@/components/ReviewCard'
 import ConversationCard from '@/components/ConversationCard'
 import SentenceInput from '@/components/SentenceInput'
 import SessionSummary from '@/components/SessionSummary'
+import MCQSummary from '@/components/MCQSummary'
 import {
   getDailyWords, getRecentWrongWords, generateQuiz, submitAnswer, completeSession,
-  WordOut, QuizQuestion, WrongWordEntry
+  getMCQQuestionsToday, generateMCQRound, submitMCQAnswer, completeMCQSession,
+  WordOut, QuizQuestion, WrongWordEntry, MCQQuestion, MCQAnswerRequest
 } from '@/lib/api'
 
 type Phase = 'round1' | 'explain' | 'review1' | 'round2' | 'review2_explain' | 'review2_write' | 'round3' | 'summary'
+  | 'mcq_round1' | 'mcq_explain' | 'mcq_review1' | 'mcq_round2' | 'mcq_review2' | 'mcq_round3' | 'mcq_summary'
 
 export default function QuizPage() {
   const router = useRouter()
@@ -33,6 +36,23 @@ export default function QuizPage() {
   // Track which round triggered the explain phase so onContinue can return to the correct round
   const explainOriginPhase = useRef<Phase>('round1')
   const previousQuestionsRef = useRef<string[]>([])
+
+  // MCQ (Section 2) state
+  const [mcqQuestions, setMcqQuestions] = useState<MCQQuestion[]>([])
+  const [mcqQuestionIndex, setMcqQuestionIndex] = useState(0)
+  const [mcqWrongWords, setMcqWrongWords] = useState<{ r1: string[], r2: string[], r3: string[] }>({ r1: [], r2: [], r3: [] })
+  const [mcqR2WordNames, setMcqR2WordNames] = useState<string[]>([])
+  const [mcqReviewWords, setMcqReviewWords] = useState<WordOut[]>([])
+  const [mcqReviewIndex, setMcqReviewIndex] = useState(0)
+  const [mcqScore, setMcqScore] = useState(0)
+  const [mcqPendingExplain, setMcqPendingExplain] = useState<MCQQuestion | null>(null)
+  const [mcqPreviousQuestions, setMcqPreviousQuestions] = useState<string[]>([])
+  const mcqPhaseRef = useRef<Phase>('mcq_round1')
+  const mcqQuestionsRef = useRef<MCQQuestion[]>([])
+  const mcqQuestionIndexRef = useRef(0)
+  const mcqWrongWordsRef = useRef<{ r1: string[], r2: string[], r3: string[] }>({ r1: [], r2: [], r3: [] })
+  const mcqExplainOriginPhase = useRef<Phase>('mcq_round1')
+  const mcqPreviousQuestionsRef = useRef<string[]>([])
 
   const getWordObj = useCallback((word: string) =>
     dailyWords.find(w => w.word === word) ?? { id: 0, word, part_of_speech: '', category: '', meaning: '', synonym: '', example_sentence: '' },
@@ -91,6 +111,14 @@ export default function QuizPage() {
     } else if (roundPhase === 'round3') {
       const allWrong = [...new Set([...currentWrongWords.r1, ...currentWrongWords.r2, ...currentWrongWords.r3])]
       await completeSession({ wrong_words: allWrong, date: new Date().toISOString().split('T')[0] })
+      // Pre-load Section 2 questions while showing Section 1 summary
+      getMCQQuestionsToday().then(qs => {
+        setMcqQuestions(qs.questions)
+        mcqQuestionsRef.current = qs.questions
+        const initialQs = qs.questions.map(q => q.question)
+        mcqPreviousQuestionsRef.current = initialQs
+        setMcqPreviousQuestions(initialQs)
+      })
       setPhase('summary')
     }
   }, [recentWrong, getWordObj, loadRound, r2WordNames])
@@ -104,6 +132,12 @@ export default function QuizPage() {
   useEffect(() => { wrongWordsRef.current = wrongWords }, [wrongWords])
   useEffect(() => { questionIndexRef.current = questionIndex }, [questionIndex])
   useEffect(() => { questionsRef.current = questions }, [questions])
+
+  // MCQ ref sync effects
+  useEffect(() => { mcqPhaseRef.current = phase }, [phase])
+  useEffect(() => { mcqQuestionsRef.current = mcqQuestions }, [mcqQuestions])
+  useEffect(() => { mcqQuestionIndexRef.current = mcqQuestionIndex }, [mcqQuestionIndex])
+  useEffect(() => { mcqWrongWordsRef.current = mcqWrongWords }, [mcqWrongWords])
 
   const advanceQuestion = useCallback((currentPhase: Phase, currentIndex: number, currentQuestions: QuizQuestion[], currentWrongWords: { r1: string[], r2: string[], r3: string[] }) => {
     if (currentIndex + 1 < currentQuestions.length) {
@@ -150,14 +184,140 @@ export default function QuizPage() {
     advanceQuestion(originPhase, currentIndex, currentQuestions, currentWrongWords)
   }, [advanceQuestion])
 
-  const progressStep = { round1: 0, explain: 0, review1: 1, round2: 2, review2_explain: 3, review2_write: 3, round3: 4, summary: 5 }[phase]
+  // MCQ helpers
+  const loadMCQRound = useCallback(async (wordList: WordOut[]) => {
+    const qs = await generateMCQRound({ words: wordList, previous_questions: mcqPreviousQuestionsRef.current })
+    setMcqQuestions(qs.questions)
+    setMcqQuestionIndex(0)
+    mcqQuestionsRef.current = qs.questions
+    mcqQuestionIndexRef.current = 0
+    setMcqPreviousQuestions(prev => {
+      const updated = [...prev, ...qs.questions.map(q => q.question)]
+      mcqPreviousQuestionsRef.current = updated
+      return updated
+    })
+  }, [])
+
+  const mcqEndRound = useCallback(async (roundPhase: Phase, currentWrong: { r1: string[], r2: string[], r3: string[] }) => {
+    const today = new Date().toISOString().split('T')[0]
+    if (roundPhase === 'mcq_round1') {
+      const r1Wrong = currentWrong.r1
+      setMcqR2WordNames(r1Wrong)
+      if (r1Wrong.length === 0) {
+        // Perfect round — skip R2 and R3
+        await completeMCQSession({ wrong_words: [], date: today })
+        setPhase('mcq_summary')
+        mcqPhaseRef.current = 'mcq_summary'
+        return
+      }
+      const r2Words = r1Wrong.map(getWordObj)
+      setMcqReviewWords(r2Words)
+      setMcqReviewIndex(0)
+      await loadMCQRound(r2Words)
+      setPhase('mcq_review1')
+      mcqPhaseRef.current = 'mcq_review1'
+    } else if (roundPhase === 'mcq_round2') {
+      const r2Wrong = currentWrong.r2
+      if (r2Wrong.length === 0) {
+        // Perfect R2 — skip R3
+        const allWrong = [...new Set([...currentWrong.r1])]
+        await completeMCQSession({ wrong_words: allWrong, date: today })
+        setPhase('mcq_summary')
+        mcqPhaseRef.current = 'mcq_summary'
+        return
+      }
+      const r3Words = r2Wrong.map(getWordObj)
+      setMcqReviewWords(r3Words)
+      setMcqReviewIndex(0)
+      await loadMCQRound(r3Words)
+      setPhase('mcq_review2')
+      mcqPhaseRef.current = 'mcq_review2'
+    } else if (roundPhase === 'mcq_round3') {
+      const allWrong = [...new Set([...currentWrong.r1, ...currentWrong.r2, ...currentWrong.r3])]
+      await completeMCQSession({ wrong_words: allWrong, date: today })
+      setPhase('mcq_summary')
+      mcqPhaseRef.current = 'mcq_summary'
+    }
+  }, [getWordObj, loadMCQRound])
+
+  const mcqAdvanceQuestion = useCallback((currentPhase: Phase, currentIndex: number, currentQuestions: MCQQuestion[], currentWrong: { r1: string[], r2: string[], r3: string[] }) => {
+    if (currentIndex + 1 < currentQuestions.length) {
+      setMcqQuestionIndex(currentIndex + 1)
+      mcqQuestionIndexRef.current = currentIndex + 1
+    } else {
+      mcqEndRound(currentPhase, currentWrong)
+    }
+  }, [mcqEndRound])
+
+  const handleMCQAnswer = async (choice: string, isCorrect: boolean) => {
+    const currentPhase = mcqPhaseRef.current
+    const currentIndex = mcqQuestionIndexRef.current
+    const currentQuestions = mcqQuestionsRef.current
+    const q = currentQuestions[currentIndex]
+    const today = new Date().toISOString().split('T')[0]
+    const roundNum = currentPhase === 'mcq_round1' ? 1 : currentPhase === 'mcq_round2' ? 2 : 3
+    const res = await submitMCQAnswer({ word: q.word, is_correct: isCorrect, round: roundNum, date: today })
+    setMcqScore(res.total_score)
+    if (!isCorrect) {
+      let updated = mcqWrongWordsRef.current
+      if (currentPhase === 'mcq_round1') updated = { ...updated, r1: [...updated.r1, q.word] }
+      else if (currentPhase === 'mcq_round2') updated = { ...updated, r2: [...updated.r2, q.word] }
+      else if (currentPhase === 'mcq_round3') updated = { ...updated, r3: [...updated.r3, q.word] }
+      setMcqWrongWords(updated)
+      mcqWrongWordsRef.current = updated
+      mcqExplainOriginPhase.current = currentPhase
+      setMcqPendingExplain(q)
+      setPhase('mcq_explain')
+      mcqPhaseRef.current = 'mcq_explain'
+    } else {
+      mcqAdvanceQuestion(currentPhase, currentIndex, currentQuestions, mcqWrongWordsRef.current)
+    }
+  }
+
+  const handleMCQExplainContinue = useCallback(() => {
+    const originPhase = mcqExplainOriginPhase.current
+    const currentIndex = mcqQuestionIndexRef.current
+    const currentQuestions = mcqQuestionsRef.current
+    const currentWrong = mcqWrongWordsRef.current
+    setMcqPendingExplain(null)
+    setPhase(originPhase)
+    mcqPhaseRef.current = originPhase
+    mcqAdvanceQuestion(originPhase, currentIndex, currentQuestions, currentWrong)
+  }, [mcqAdvanceQuestion])
+
+  const progressStep = {
+    round1: 0, explain: 0, review1: 1, round2: 2, review2_explain: 3, review2_write: 3, round3: 4, summary: 5,
+    mcq_round1: 0, mcq_explain: 0, mcq_review1: 1, mcq_round2: 2, mcq_review2: 3, mcq_round3: 4, mcq_summary: 5,
+  }[phase] ?? 0
 
   if (phase === 'summary') {
     const allWrong = [...new Set([...wrongWords.r1, ...wrongWords.r2, ...wrongWords.r3])]
     return (
       <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white p-8">
         <SessionSummary score={score} wordsCorrect={dailyWords.length - allWrong.length} wordsToReview={allWrong} />
-        <button onClick={() => router.push('/')} className="mt-6 w-full max-w-xl mx-auto block text-center text-blue-500 underline">Back to home</button>
+        <button
+          onClick={() => {
+            setPhase('mcq_round1')
+            mcqPhaseRef.current = 'mcq_round1'
+          }}
+          className="mt-6 w-full max-w-xl mx-auto block bg-purple-500 hover:bg-purple-600 text-white font-semibold py-3 rounded-xl transition-colors text-center"
+        >
+          Continue to Section 2 →
+        </button>
+      </main>
+    )
+  }
+
+  if (phase === 'mcq_summary') {
+    const allMcqWrong = [...new Set([...mcqWrongWords.r1, ...mcqWrongWords.r2, ...mcqWrongWords.r3])]
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-purple-50 to-white p-8">
+        <MCQSummary
+          score={mcqScore}
+          wordsCorrect={10 - allMcqWrong.length}
+          wordsToReview={allMcqWrong}
+          onDone={() => router.push('/')}
+        />
       </main>
     )
   }
@@ -184,6 +344,59 @@ export default function QuizPage() {
         )}
         {phase === 'round3' && questions[questionIndex] && (
           <ConversationCard question={questions[questionIndex]} onAnswer={handleAnswer} />
+        )}
+        {(phase === 'mcq_round1' || phase === 'mcq_round2' || phase === 'mcq_round3') && mcqQuestions[mcqQuestionIndex] && (
+          <QuestionCard
+            question={{
+              ...mcqQuestions[mcqQuestionIndex],
+              pronunciation: undefined,
+            }}
+            onAnswer={handleMCQAnswer}
+          />
+        )}
+        {phase === 'mcq_explain' && mcqPendingExplain && (
+          <ExplanationCard
+            question={{ ...mcqPendingExplain, pronunciation: undefined }}
+            onContinue={handleMCQExplainContinue}
+          />
+        )}
+        {phase === 'mcq_review1' && mcqReviewWords[mcqReviewIndex] && (
+          <ReviewCard
+            word={mcqReviewWords[mcqReviewIndex]}
+            onNext={() => {
+              if (mcqReviewIndex + 1 < mcqReviewWords.length) {
+                setMcqReviewIndex(i => i + 1)
+              } else {
+                if (mcqR2WordNames.length > 0) {
+                  setPhase('mcq_round2')
+                  mcqPhaseRef.current = 'mcq_round2'
+                } else {
+                  setPhase('mcq_round3')
+                  mcqPhaseRef.current = 'mcq_round3'
+                }
+              }
+            }}
+          />
+        )}
+        {phase === 'mcq_review2' && mcqReviewWords[mcqReviewIndex] && (
+          <ReviewCard
+            word={mcqReviewWords[mcqReviewIndex]}
+            onNext={() => {
+              if (mcqReviewIndex + 1 < mcqReviewWords.length) {
+                setMcqReviewIndex(i => i + 1)
+              } else {
+                const r3Words = mcqWrongWordsRef.current.r2
+                if (r3Words.length > 0) {
+                  setPhase('mcq_round3')
+                  mcqPhaseRef.current = 'mcq_round3'
+                } else {
+                  completeMCQSession({ wrong_words: [], date: new Date().toISOString().split('T')[0] })
+                  setPhase('mcq_summary')
+                  mcqPhaseRef.current = 'mcq_summary'
+                }
+              }
+            }}
+          />
         )}
       </div>
     </main>
