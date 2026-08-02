@@ -3,7 +3,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from database import init_db
 from services.seed import seed_words
 
-WORD_BANK = os.path.join(os.path.dirname(__file__), '../../../../../word-bank/P4_Top200_MOE_Aligned_Vocabulary.txt')
+WORD_BANK = os.path.join(os.path.dirname(__file__), '../../../word-bank/P4_Top200_MOE_Aligned_Vocabulary.txt')
 
 def test_seed_words_inserts_records(tmp_path):
     conn = init_db(str(tmp_path / "test.db"))

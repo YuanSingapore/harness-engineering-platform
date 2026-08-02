@@ -7,7 +7,7 @@ from services.seed import seed_words
 
 WORD_BANK = os.path.join(
     os.path.dirname(__file__),
-    '../../../../../word-bank/P4_Top200_MOE_Aligned_Vocabulary.txt'
+    '../../../word-bank/P4_Top200_MOE_Aligned_Vocabulary.txt'
 )
 
 @pytest.fixture(autouse=True, scope="session")
