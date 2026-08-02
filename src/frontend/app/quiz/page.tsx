@@ -461,7 +461,7 @@ export default function QuizPage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white p-8">
-      <ScoreDisplay score={phase.startsWith('mcq_') ? mcqScore : score} />
+      <ScoreDisplay score={phase.startsWith('bonus_') ? bonusScore : phase.startsWith('mcq_') ? mcqScore : score} />
       <ProgressBar step={progressStep} />
       <div className="mt-8">
         {(phase === 'round1' || phase === 'round2') && questions[questionIndex] && (
