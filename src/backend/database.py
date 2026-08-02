@@ -33,6 +33,21 @@ def init_db(path: str = DB_PATH) -> sqlite3.Connection:
             last_wrong_date TEXT NOT NULL,
             wrong_count INTEGER DEFAULT 1
         );
+        CREATE TABLE IF NOT EXISTS mcq_sessions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            date TEXT NOT NULL UNIQUE,
+            round1_words TEXT DEFAULT '[]',
+            round2_words TEXT DEFAULT '[]',
+            round3_words TEXT DEFAULT '[]',
+            total_score INTEGER DEFAULT 0,
+            completed INTEGER DEFAULT 0
+        );
+        CREATE TABLE IF NOT EXISTS mcq_wrong_words_log (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            word TEXT NOT NULL UNIQUE,
+            last_wrong_date TEXT NOT NULL,
+            wrong_count INTEGER DEFAULT 1
+        );
     """)
     conn.commit()
     return conn
