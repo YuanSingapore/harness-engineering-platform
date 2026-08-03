@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:8000'
+const API_BASE = ''
 
 export interface WordOut {
   id: number; word: string; part_of_speech: string; category: string

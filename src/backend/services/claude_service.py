@@ -59,10 +59,12 @@ Return ONLY the JSON array. No markdown, no extra text."""
 def generate_quiz(words: List[WordOut], round: int, previous_questions: List[str]) -> List[QuizQuestion]:
     prompt = build_prompt(words, round, previous_questions)
     response = anthropic_client.messages.create(
-        model="claude-sonnet-4-6",
+        model="rsn.claude-sonnet-4-6",
         max_tokens=2048,
         messages=[{"role": "user", "content": prompt}]
     )
     raw = response.content[0].text.strip()
+    if raw.startswith("```"):
+        raw = raw.split("\n", 1)[1].rsplit("```", 1)[0].strip()
     data = json.loads(raw)
     return [QuizQuestion(**q) for q in data]

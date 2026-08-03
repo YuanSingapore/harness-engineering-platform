@@ -46,6 +46,7 @@ export default function QuizPage() {
   const [mcqReviewIndex, setMcqReviewIndex] = useState(0)
   const [mcqScore, setMcqScore] = useState(0)
   const [mcqPendingExplain, setMcqPendingExplain] = useState<MCQQuestion | null>(null)
+  const [mcqChosenAnswer, setMcqChosenAnswer] = useState<string>('')
   const [mcqPreviousQuestions, setMcqPreviousQuestions] = useState<string[]>([])
   const mcqQuestionsRef = useRef<MCQQuestion[]>([])
   const mcqQuestionIndexRef = useRef(0)
@@ -54,7 +55,7 @@ export default function QuizPage() {
   const mcqPreviousQuestionsRef = useRef<string[]>([])
 
   const getWordObj = useCallback((word: string) =>
-    dailyWords.find(w => w.word === word) ?? { id: 0, word, part_of_speech: '', category: '', meaning: '', synonym: '', example_sentence: '' },
+    dailyWords.find(w => w.word.toLowerCase() === word.toLowerCase()) ?? { id: 0, word, part_of_speech: '', category: '', meaning: '', synonym: '', example_sentence: '' },
     [dailyWords])
 
   const loadRound = useCallback(async (round: number, wordList: WordOut[]) => {
@@ -279,6 +280,7 @@ export default function QuizPage() {
       mcqWrongWordsRef.current = updated
       mcqExplainOriginPhase.current = currentPhase
       setMcqPendingExplain(q)
+      setMcqChosenAnswer(choice)
       setPhase('mcq_explain')
       phaseRef.current = 'mcq_explain'
     } else {
@@ -369,6 +371,8 @@ export default function QuizPage() {
         {phase === 'mcq_explain' && mcqPendingExplain && (
           <ExplanationCard
             question={{ ...mcqPendingExplain, pronunciation: undefined }}
+            chosenAnswer={mcqChosenAnswer}
+            chosenMeaning={getWordObj(mcqChosenAnswer).meaning}
             onContinue={handleMCQExplainContinue}
           />
         )}

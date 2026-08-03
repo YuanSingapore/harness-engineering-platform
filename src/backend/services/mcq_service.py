@@ -110,6 +110,8 @@ Return ONLY a JSON array. Each object must have exactly these fields:
         messages=[{"role": "user", "content": prompt}]
     )
     raw = response.content[0].text.strip()
+    if raw.startswith("```"):
+        raw = raw.split("\n", 1)[1].rsplit("```", 1)[0].strip()
     data = json.loads(raw)
     return [MCQQuestion(**q) for q in data]
 
