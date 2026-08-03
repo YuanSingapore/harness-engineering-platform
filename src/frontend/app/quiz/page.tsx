@@ -13,11 +13,13 @@ import MCQSummary from '@/components/MCQSummary'
 import {
   getDailyWords, getRecentWrongWords, generateQuiz, submitAnswer, completeSession,
   getMCQQuestionsToday, generateMCQRound, submitMCQAnswer, completeMCQSession,
-  WordOut, QuizQuestion, WrongWordEntry, MCQQuestion, MCQAnswerRequest
+  getBonusWords, submitBonusAnswer, completeBonusSession,
+  WordOut, QuizQuestion, WrongWordEntry, MCQQuestion, MCQAnswerRequest, BonusAnswerRequest
 } from '@/lib/api'
 
 type Phase = 'round1' | 'explain' | 'review1' | 'round2' | 'review2_explain' | 'review2_write' | 'round3' | 'summary'
   | 'mcq_round1' | 'mcq_explain' | 'mcq_review1' | 'mcq_round2' | 'mcq_review2' | 'mcq_round3' | 'mcq_summary'
+  | 'bonus_meaning' | 'bonus_explain' | 'bonus_mcq' | 'bonus_summary'
 
 export default function QuizPage() {
   const router = useRouter()
@@ -54,9 +56,25 @@ export default function QuizPage() {
   const mcqExplainOriginPhase = useRef<Phase>('mcq_round1')
   const mcqPreviousQuestionsRef = useRef<string[]>([])
 
+  // Bonus session state
+  const [bonusWords, setBonusWords] = useState<WordOut[]>([])
+  const [bonusQuestions, setBonusQuestions] = useState<QuizQuestion[]>([])
+  const [bonusMCQQuestions, setBonusMCQQuestions] = useState<MCQQuestion[]>([])
+  const [bonusQuestionIndex, setBonusQuestionIndex] = useState(0)
+  const [bonusMCQIndex, setBonusMCQIndex] = useState(0)
+  const [bonusScore, setBonusScore] = useState(0)
+  const [bonusCorrectWords, setBonusCorrectWords] = useState<string[]>([])
+  const [bonusPendingExplain, setBonusPendingExplain] = useState<QuizQuestion | null>(null)
+  const [bonusChosenAnswer, setBonusChosenAnswer] = useState('')
+  const bonusQuestionsRef = useRef<QuizQuestion[]>([])
+  const bonusMCQRef = useRef<MCQQuestion[]>([])
+  const bonusQuestionIndexRef = useRef(0)
+  const bonusMCQIndexRef = useRef(0)
+  const bonusCorrectWordsRef = useRef<string[]>([])
+
   const getWordObj = useCallback((word: string) =>
-    dailyWords.find(w => w.word.toLowerCase() === word.toLowerCase()) ?? { id: 0, word, part_of_speech: '', category: '', meaning: '', synonym: '', example_sentence: '' },
-    [dailyWords])
+    [...dailyWords, ...bonusWords].find(w => w.word.toLowerCase() === word.toLowerCase()) ?? { id: 0, word, part_of_speech: '', category: '', meaning: '', synonym: '', example_sentence: '' },
+    [dailyWords, bonusWords])
 
   const loadRound = useCallback(async (round: number, wordList: WordOut[]) => {
     const qs = await generateQuiz({ words: wordList, round, previous_questions: previousQuestionsRef.current })
@@ -80,6 +98,24 @@ export default function QuizPage() {
         const initialQs = mcq.questions.map(q => q.question)
         mcqPreviousQuestionsRef.current = initialQs
         setMcqPreviousQuestions(initialQs)
+      })
+    } else if (section === 'bonus') {
+      setPhase('bonus_meaning')
+      Promise.all([getDailyWords(), getBonusWords()]).then(async ([daily, bonus]) => {
+        setDailyWords(daily.words)
+        setBonusWords(bonus.words)
+        if (bonus.words.length === 0) {
+          setPhase('bonus_summary')
+          return
+        }
+        const [qs, mcqQs] = await Promise.all([
+          generateQuiz({ words: bonus.words, round: 1, previous_questions: [] }),
+          generateMCQRound({ words: bonus.words, previous_questions: [] }),
+        ])
+        setBonusQuestions(qs.questions)
+        bonusQuestionsRef.current = qs.questions
+        setBonusMCQQuestions(mcqQs.questions)
+        bonusMCQRef.current = mcqQs.questions
       })
     } else {
       Promise.all([getDailyWords(), getRecentWrongWords()]).then(([daily, recent]) => {
@@ -299,10 +335,99 @@ export default function QuizPage() {
     mcqAdvanceQuestion(originPhase, currentIndex, currentQuestions, currentWrong)
   }, [mcqAdvanceQuestion])
 
+  const handleBonusMeaningAnswer = async (choice: string, isCorrect: boolean) => {
+    const currentIndex = bonusQuestionIndexRef.current
+    const currentQuestions = bonusQuestionsRef.current
+    const q = currentQuestions[currentIndex]
+    if (!q) return
+    const today = new Date().toISOString().split('T')[0]
+    const res = await submitBonusAnswer({ word: q.word, is_correct: isCorrect, date: today })
+    setBonusScore(res.total_score)
+    if (isCorrect) {
+      const updated = [...bonusCorrectWordsRef.current, q.word]
+      bonusCorrectWordsRef.current = updated
+      setBonusCorrectWords(updated)
+    } else {
+      setBonusChosenAnswer(choice)
+      setBonusPendingExplain(q)
+      setPhase('bonus_explain')
+      phaseRef.current = 'bonus_explain'
+      return
+    }
+    if (currentIndex + 1 < currentQuestions.length) {
+      setBonusQuestionIndex(currentIndex + 1)
+      bonusQuestionIndexRef.current = currentIndex + 1
+    } else {
+      setPhase('bonus_mcq')
+      phaseRef.current = 'bonus_mcq'
+      setBonusMCQIndex(0)
+      bonusMCQIndexRef.current = 0
+    }
+  }
+
+  const handleBonusExplainContinue = useCallback(() => {
+    const currentIndex = bonusQuestionIndexRef.current
+    const currentQuestions = bonusQuestionsRef.current
+    setBonusPendingExplain(null)
+    setPhase('bonus_meaning')
+    phaseRef.current = 'bonus_meaning'
+    if (currentIndex + 1 < currentQuestions.length) {
+      setBonusQuestionIndex(currentIndex + 1)
+      bonusQuestionIndexRef.current = currentIndex + 1
+    } else {
+      setPhase('bonus_mcq')
+      phaseRef.current = 'bonus_mcq'
+      setBonusMCQIndex(0)
+      bonusMCQIndexRef.current = 0
+    }
+  }, [])
+
+  const handleBonusMCQAnswer = async (choice: string, isCorrect: boolean) => {
+    const currentIndex = bonusMCQIndexRef.current
+    const currentQuestions = bonusMCQRef.current
+    const q = currentQuestions[currentIndex]
+    if (!q) return
+    const today = new Date().toISOString().split('T')[0]
+    const res = await submitBonusAnswer({ word: q.word, is_correct: isCorrect, date: today })
+    setBonusScore(res.total_score)
+    if (isCorrect) {
+      const updated = [...bonusCorrectWordsRef.current, q.word]
+      bonusCorrectWordsRef.current = updated
+      setBonusCorrectWords(updated)
+    }
+    if (currentIndex + 1 < currentQuestions.length) {
+      setBonusMCQIndex(currentIndex + 1)
+      bonusMCQIndexRef.current = currentIndex + 1
+    } else {
+      const today2 = new Date().toISOString().split('T')[0]
+      await completeBonusSession({ correct_words: bonusCorrectWordsRef.current, date: today2 })
+      setPhase('bonus_summary')
+      phaseRef.current = 'bonus_summary'
+    }
+  }
+
   const progressStep = {
     round1: 0, explain: 0, review1: 1, round2: 2, review2_explain: 3, review2_write: 3, round3: 4, summary: 5,
     mcq_round1: 0, mcq_explain: 0, mcq_review1: 1, mcq_round2: 2, mcq_review2: 3, mcq_round3: 4, mcq_summary: 5,
+    bonus_meaning: 0, bonus_explain: 0, bonus_mcq: 1, bonus_summary: 2,
   }[phase] ?? 0
+
+  if (phase === 'bonus_summary') {
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-yellow-50 to-white p-8">
+        <div className="max-w-xl mx-auto text-center mt-16">
+          <p className="text-4xl mb-4">⭐</p>
+          <h2 className="text-2xl font-bold text-yellow-700 mb-2">Bonus Complete!</h2>
+          <p className="text-gray-600 mb-2">Great revision work, Xiaowei!</p>
+          <p className="text-yellow-600 font-bold text-xl mb-8">+{bonusScore} bonus pts</p>
+          <button onClick={() => router.push('/')}
+            className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-8 rounded-xl transition-colors">
+            Back to Home
+          </button>
+        </div>
+      </main>
+    )
+  }
 
   if (phase === 'summary') {
     const allWrong = [...new Set([...wrongWords.r1, ...wrongWords.r2, ...wrongWords.r3])]
@@ -338,7 +463,7 @@ export default function QuizPage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white p-8">
-      <ScoreDisplay score={phase.startsWith('mcq_') ? mcqScore : score} />
+      <ScoreDisplay score={phase.startsWith('bonus_') ? bonusScore : phase.startsWith('mcq_') ? mcqScore : score} />
       <ProgressBar step={progressStep} />
       <div className="mt-8">
         {(phase === 'round1' || phase === 'round2') && questions[questionIndex] && (
@@ -412,6 +537,23 @@ export default function QuizPage() {
                 }
               }
             }}
+          />
+        )}
+        {phase === 'bonus_meaning' && bonusQuestions[bonusQuestionIndex] && (
+          <QuestionCard question={bonusQuestions[bonusQuestionIndex]} onAnswer={handleBonusMeaningAnswer} />
+        )}
+        {phase === 'bonus_explain' && bonusPendingExplain && (
+          <ExplanationCard
+            question={{ ...bonusPendingExplain }}
+            chosenAnswer={bonusChosenAnswer}
+            chosenMeaning={getWordObj(bonusChosenAnswer).meaning}
+            onContinue={handleBonusExplainContinue}
+          />
+        )}
+        {phase === 'bonus_mcq' && bonusMCQQuestions[bonusMCQIndex] && (
+          <QuestionCard
+            question={{ ...bonusMCQQuestions[bonusMCQIndex], pronunciation: undefined }}
+            onAnswer={handleBonusMCQAnswer}
           />
         )}
       </div>
